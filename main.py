@@ -177,25 +177,50 @@ class ToDoList:
 class GUI(tk.Frame, ToDoList):
     """Graphical interface for the todolist."""
 
-    def __init__(self):
+    def __init__(self, filename = None):
         """Constructor."""
+        
         self.master = tk.Tk()
         tk.Frame.__init__(self, self.master)
         self.pack()
-
-        self.menu = tk.Menu(self.master)
-        self.menu.add_command(label="new")
-
-
-        self.master.config(menu=self.menu)
-        self.master.mainloop()
-
-    def init_todo(self, filename=None):
-        """Initialises ToDoList"""
+        
+        ToDoList.__init__(self)
         if filename is not None:
-            ToDoList.instance_from_data(filename)
-        else:
-            ToDoList.__init__(self)
+            self.load_data(filename)
+
+        self.menubar = tk.Menu(self.master)
+
+        self.task_menu = tk.Menu(self.menubar, tearoff=0)
+        self.task_menu.add_command(label="Upcoming", command=self.show_upcoming_tasks)
+        self.task_menu.add_command(label="Late", command=self.show_late_tasks)
+        self.task_menu.add_command(label="Complete", command=self.show_completed_tasks)
+        
+        self.menubar.add_separator()
+        self.menubar.add_command(label="Exit", command=self.master.quit)
+
+        self.text = tk.StringVar()
+        self.text.set("ToDoApp !")
+    
+        self.label = tk.Label(self, textvariable=self.text)
+        self.label.pack()
+        #filemenu.add_command(label="Exit", command=root.quit)
+
+        self.menubar.add_cascade(label="Tasks", menu=self.task_menu)
+        self.master.config(menu=self.menubar)
+        print(self.lift)
+        self.master.mainloop()
+ 
+    def show_late_tasks(self):
+        """"""
+        self.text.set(str(self.late_tasks()))
+
+    def show_completed_tasks(self):
+        """"""
+        self.text.set(str(self.completed_tasks()))
+
+    def show_upcoming_tasks(self):
+        self.text.set(str(self.upcoming_tasks()))
+
             
         
 
@@ -206,30 +231,30 @@ class GUI(tk.Frame, ToDoList):
                                    
 if __name__ == '__main__':
     #task1 = Task.create()
-    task1 = Task("test1", "first task", datetime(1001,1,1))
-    list1 = ToDoList()
-    list1.add_task(task1)
-    task2 = Task("test2", "second task", datetime(2023, 5, 20), True)
-    task3 = Task("test3", "oops ! i forgor", datetime(2020, 1, 1))
-    task4 = Task("test4", "signing test", datetime(2022, 2, 2))
-    list1.add_task(task4)
-    list1.add_task(task2)
-    list1.add_task(task3)
-    print(task4)
-    print(task1)
-    print(list1)
-    print(list1.late_tasks())
-    print(list1.completed_tasks()[0].title)
-    print(list1.upcoming_tasks())
-    print()
-    list1.store_data("data.json")
+    #task1 = Task("test1", "first task", datetime(1001,1,1))
+    #list1 = ToDoList()
+    #list1.add_task(task1)
+    #task2 = Task("test2", "second task", datetime(2023, 5, 20), True)
+    #task3 = Task("test3", "oops ! i forgor", datetime(2020, 1, 1))
+    #task4 = Task("test4", "signing test", datetime(2022, 2, 2))
+    #list1.add_task(task4)
+    #list1.add_task(task2)
+    #list1.add_task(task3)
+    #print(task4)
+    #print(task1)
+    #print(list1)
+    #print(list1.late_tasks())
+    #print(list1.completed_tasks()[0].title)
+    #print(list1.upcoming_tasks())
+    #print()
+    #list1.store_data("data.json")
+    #
+    #list2 = ToDoList.instance_from_data("data.json")
+    #
+    #print(list2)
 
-    list2 = ToDoList.instance_from_data("data.json")
-    
-    print(list2)
 
-
-    appli = GUI()
-    appli.init_todo()
+    appli = GUI("data.json")
+ 
 
     
