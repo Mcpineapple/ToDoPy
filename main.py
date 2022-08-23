@@ -174,7 +174,7 @@ class ToDoList:
             string += str(task) + "\n\n"
         return string
 
-class GUI(tk.Frame):
+class GUI(tk.Frame, ToDoList):
     """Graphical interface for the todolist."""
 
     def __init__(self):
@@ -186,8 +186,18 @@ class GUI(tk.Frame):
         self.menu = tk.Menu(self.master)
         self.menu.add_command(label="new")
 
+
         self.master.config(menu=self.menu)
         self.master.mainloop()
+
+    def init_todo(self, filename=None):
+        """Initialises ToDoList"""
+        if filename is not None:
+            ToDoList.instance_from_data(filename)
+        else:
+            ToDoList.__init__(self)
+            
+        
 
 
 
@@ -220,5 +230,6 @@ if __name__ == '__main__':
 
 
     appli = GUI()
+    appli.init_todo()
 
     
