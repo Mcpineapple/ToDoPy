@@ -2,6 +2,8 @@ from datetime import datetime
 import tkinter as tk
 import json
 
+SAVEFILE = "data.json"
+
 
 class Task:
     """"""
@@ -174,55 +176,84 @@ class ToDoList:
             string += str(task) + "\n\n"
         return string
 
-class GUI(tk.Frame, ToDoList):
+
+class NewTaskGUI():
+
+    def __init__(self, gui: GUI):
+        """Constructor"""
+        self.gui = gui
+
+        self.master = tk.Tk()
+
+        self.title_entry = tk.Entry(self.master)
+
+        
+class GUI(tk.Label, ToDoList):
     """Graphical interface for the todolist."""
 
     def __init__(self, filename = None):
         """Constructor."""
         
         self.master = tk.Tk()
-        tk.Frame.__init__(self, self.master)
-        self.pack()
+
+        self.text = tk.StringVar()
+        self.text.set("ToDoPy !")
+        tk.Label.__init__(self, self.master, textvariable=self.text, anchor=tk.NW)
+        self.pack(expand=True, fill=tk.BOTH)
         
         ToDoList.__init__(self)
         if filename is not None:
             self.load_data(filename)
 
+
         self.menubar = tk.Menu(self.master)
 
         self.task_menu = tk.Menu(self.menubar, tearoff=0)
+        self.task_menu.add_command(label="All", command=self.show_all_tasks)
         self.task_menu.add_command(label="Upcoming", command=self.show_upcoming_tasks)
         self.task_menu.add_command(label="Late", command=self.show_late_tasks)
         self.task_menu.add_command(label="Complete", command=self.show_completed_tasks)
+        self.menubar.add_cascade(label="View", menu=self.task_menu)
+        
+        self.menubar.add_separator()
+        def save():
+            self.store_data("SAVEFILE")
+        self.menubar.add_command(label="Save", command=save)
         
         self.menubar.add_separator()
         self.menubar.add_command(label="Exit", command=self.master.quit)
 
-        self.text = tk.StringVar()
-        self.text.set("ToDoApp !")
     
-        self.label = tk.Label(self, textvariable=self.text)
-        self.label.pack()
-        #filemenu.add_command(label="Exit", command=root.quit)
+        
 
-        self.menubar.add_cascade(label="Tasks", menu=self.task_menu)
         self.master.config(menu=self.menubar)
-        print(self.lift)
+
         self.master.mainloop()
  
     def show_late_tasks(self):
         """"""
-        self.text.set(str(self.late_tasks()))
+        self.show_tasks(self.late_tasks())
 
     def show_completed_tasks(self):
         """"""
-        self.text.set(str(self.completed_tasks()))
+        self.show_tasks(self.completed_tasks())
 
     def show_upcoming_tasks(self):
-        self.text.set(str(self.upcoming_tasks()))
+        self.show_tasks(self.upcoming_tasks())
 
-            
+    def show_all_tasks(self):
+        self.show_tasks(self.list)
         
+    def show_tasks(self, task_list):
+        text = ""
+        for task in task_list:
+            text += f"{task.title}\nDate:  {task.date}\n"
+            text += "Complete task." if task.complete else "TODO"
+            text += f"\n\n{task.content}\n\n\n"
+        self.text.set(text)
+        
+            
+    
 
 
 
@@ -254,7 +285,7 @@ if __name__ == '__main__':
     #print(list2)
 
 
-    appli = GUI("data.json")
+    appli = GUI(SAVEFILE)
  
 
     
