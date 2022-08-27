@@ -199,7 +199,13 @@ class NewTaskGUI():
 
     def confirm(self):
         """"""
-        #self.gui.add_task(t)
+        title = self.title_entry.get()
+        date = datetime.now()
+        content = self.content_entry.get()
+        complete = False
+
+        task = Task(title, content, date, complete)
+        self.gui.add_task(task)
         self.master.destroy()
         
         
@@ -225,7 +231,7 @@ class GUI(tk.Label, ToDoList):
         self.menubar = tk.Menu(self.master)
 
         def new_task():
-           new = NewTaskGUI(self)
+           NewTaskGUI(self)
         self.menubar.add_command(label="New", command=new_task)
         
         self.menubar.add_separator()
