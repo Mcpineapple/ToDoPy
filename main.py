@@ -179,7 +179,7 @@ class ToDoList:
 
 class NewTaskGUI():
 
-    def __init__(self, gui: GUI):
+    def __init__(self, gui):
         """Constructor"""
         self.gui = gui
 
@@ -188,12 +188,20 @@ class NewTaskGUI():
         self.title_entry = tk.Entry(self.master)
         self.date_entry = tk.Entry(self.master)
         self.content_entry = tk.Entry(self.master)
+        self.confirm_button = tk.Button(self.master, text="Confirm", command=self.confirm)
 
         self.title_entry.pack()
         self.date_entry.pack()
         self.content_entry.pack()
+        self.confirm_button.pack()
 
         self.master.mainloop()
+
+    def confirm(self):
+        """"""
+        #self.gui.add_task(t)
+        self.master.destroy()
+        
         
         
 class GUI(tk.Label, ToDoList):
@@ -216,6 +224,11 @@ class GUI(tk.Label, ToDoList):
 
         self.menubar = tk.Menu(self.master)
 
+        def new_task():
+           new = NewTaskGUI(self)
+        self.menubar.add_command(label="New", command=new_task)
+        
+        self.menubar.add_separator()
         self.task_menu = tk.Menu(self.menubar, tearoff=0)
         self.task_menu.add_command(label="All", command=self.show_all_tasks)
         self.task_menu.add_command(label="Upcoming", command=self.show_upcoming_tasks)
