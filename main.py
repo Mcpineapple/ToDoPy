@@ -186,7 +186,15 @@ class NewTaskGUI():
         self.master = tk.Tk()
 
         self.title_entry = tk.Entry(self.master)
+        self.date_entry = tk.Entry(self.master)
+        self.content_entry = tk.Entry(self.master)
 
+        self.title_entry.pack()
+        self.date_entry.pack()
+        self.content_entry.pack()
+
+        self.master.mainloop()
+        
         
 class GUI(tk.Label, ToDoList):
     """Graphical interface for the todolist."""
