@@ -29,9 +29,8 @@ class Task:
         year = int(input("Year : "))
         month = int(input("Month : "))
         day = int(input("Day : "))
-        hour = int(input("Hour : "))
 
-        date = datetime(year, month, day, hour)
+        date = datetime(year, month, day)
 
         return cls(title, content, date)
 
@@ -111,7 +110,7 @@ class ToDoList:
         dump_list = []
         for task in self.list:
             dump_list.append([task.title, task.content, 
-                              datetime.strftime(task.date, "%Y-%m-%d %H:%M"),
+                              datetime.strftime(task.date, "%y-%m-%d"),
                               task.complete])
         
         print(json.dumps(dump_list))
@@ -139,7 +138,7 @@ class ToDoList:
                 Task(
                  raw_task[0],
                  raw_task[1],
-                 datetime.strptime(raw_task[2], "%Y-%m-%d %H:%M"),
+                 datetime.strptime(raw_task[2], "%y-%m-%d"),
                  raw_task[3]
                 )
             )
@@ -161,7 +160,7 @@ class ToDoList:
                 Task(
                  raw_task[0],
                  raw_task[1],
-                 datetime.strptime(raw_task[2], "%Y-%m-%d %H:%M"),
+                 datetime.strptime(raw_task[2], "%y-%m-%d"),
                  raw_task[3]
                 )
             )
@@ -202,13 +201,13 @@ class NewTaskGUI():
         """"""
         title = self.title_entry.get()
         date = self.date_entry.get()
+        date = datetime.strptime(date, "%m/%d/%y")
         content = self.content_entry.get()
         complete = False
 
-        print(type(date))
 
-        #task = Task(title, content, date, complete)
-        #self.gui.add_task(task)
+        task = Task(title, content, date, complete)
+        self.gui.add_task(task)
         self.master.destroy()
         
         
@@ -247,19 +246,18 @@ class GUI(tk.Label, ToDoList):
         
         self.menubar.add_separator()
         def save():
-            self.store_data("SAVEFILE")
+            self.store_data(SAVEFILE)
         self.menubar.add_command(label="Save", command=save)
         
         self.menubar.add_separator()
         self.menubar.add_command(label="Exit", command=self.master.quit)
-
-    
-        
+ 
 
         self.master.config(menu=self.menubar)
 
         self.master.mainloop()
- 
+
+        
     def show_late_tasks(self):
         """"""
         self.show_tasks(self.late_tasks())
