@@ -1,6 +1,7 @@
 from datetime import datetime
 import tkinter as tk
 import json
+from tkcalendar import DateEntry
 
 SAVEFILE = "data.json"
 
@@ -186,7 +187,7 @@ class NewTaskGUI():
         self.master = tk.Tk()
 
         self.title_entry = tk.Entry(self.master)
-        self.date_entry = tk.Entry(self.master)
+        self.date_entry = DateEntry(self.master)
         self.content_entry = tk.Entry(self.master)
         self.confirm_button = tk.Button(self.master, text="Confirm", command=self.confirm)
 
@@ -200,12 +201,14 @@ class NewTaskGUI():
     def confirm(self):
         """"""
         title = self.title_entry.get()
-        date = datetime.now()
+        date = self.date_entry.get()
         content = self.content_entry.get()
         complete = False
 
-        task = Task(title, content, date, complete)
-        self.gui.add_task(task)
+        print(type(date))
+
+        #task = Task(title, content, date, complete)
+        #self.gui.add_task(task)
         self.master.destroy()
         
         
