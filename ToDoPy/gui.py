@@ -4,6 +4,9 @@ from datetime import datetime
 
 from ToDoPy.logic import Task, ToDoList
 
+GUI_GEOMETRY = "800x400"
+TASK_GEOMETRY = "400x200"
+
 class NewTaskGUI():
 
     def __init__(self, gui):
@@ -11,12 +14,15 @@ class NewTaskGUI():
         self.gui = gui
 
         self.master = tk.Tk()
+        self.master.geometry(TASK_GEOMETRY)
 
         self.title_entry = tk.Entry(self.master)
         self.date_entry = DateEntry(self.master)
-        self.content_entry = tk.Entry(self.master)
+        self.content_entry = tk.Text(self.master, height=6, width=45)
         self.confirm_button = tk.Button(self.master, text="Confirm", command=self.confirm)
 
+
+        
         self.title_entry.pack()
         self.date_entry.pack()
         self.content_entry.pack()
@@ -29,7 +35,7 @@ class NewTaskGUI():
         title = self.title_entry.get()
         date = self.date_entry.get()
         date = datetime.strptime(date, "%m/%d/%y")
-        content = self.content_entry.get()
+        content = self.content_entry.get(0, tk.END)
         complete = False
 
 
@@ -46,6 +52,8 @@ class GUI(tk.Label, ToDoList):
         """Constructor."""
         
         self.master = tk.Tk()
+
+        self.master.geometry(GUI_GEOMETRY)
 
         self.text = tk.StringVar()
         self.text.set("ToDoPy !")
