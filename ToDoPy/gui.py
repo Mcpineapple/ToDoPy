@@ -35,7 +35,7 @@ class NewTaskGUI():
         title = self.title_entry.get()
         date = self.date_entry.get()
         date = datetime.strptime(date, "%m/%d/%y")
-        content = self.content_entry.get(0, tk.END)
+        content = self.content_entry.get(1.0, tk.END)
         complete = False
 
 
