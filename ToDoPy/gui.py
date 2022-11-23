@@ -30,7 +30,7 @@ class NewTaskGUI():
         self.master.mainloop()
 
     def confirm(self):
-        """"""
+        """Function run when confirm button is pressed. Fetches information to create task, then destroys window."""
         title = self.title_entry.get()
         date = self.date_entry.get()
         date = datetime.strptime(date, "%m/%d/%y")
@@ -94,20 +94,23 @@ class GUI(tk.Label, ToDoList):
 
         
     def show_late_tasks(self):
-        """"""
+        """Lists late tasks using ToDoList methods."""
         self.show_tasks(self.late_tasks())
 
     def show_completed_tasks(self):
-        """"""
+        """Lists completed tasks using ToDoList methods."""
         self.show_tasks(self.completed_tasks())
 
     def show_upcoming_tasks(self):
+        """Lists upcoming tasks using ToDoList methods."""
         self.show_tasks(self.upcoming_tasks())
 
     def show_all_tasks(self):
+        """Shows all tasks using ToDoList methods"""
         self.show_tasks(self.list)
         
     def show_tasks(self, task_list):
+        """Takes a list of tasks and shows them in the GUI"""
         text = ""
         for task in task_list:
             text += f"{task.title}\nDate:  {task.date}\n"
