@@ -1,8 +1,8 @@
 from datetime import datetime
 import json
 
-SAVEFILE = "data.json"
-
+from ToDoPy.variables import *
+ 
 
 class Task:
     """"""

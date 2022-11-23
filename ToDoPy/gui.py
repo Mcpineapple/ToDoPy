@@ -3,9 +3,8 @@ from tkcalendar import DateEntry
 from datetime import datetime
 
 from ToDoPy.logic import Task, ToDoList
+from ToDoPy.variables import *
 
-GUI_GEOMETRY = "800x400"
-TASK_GEOMETRY = "400x200"
 
 class NewTaskGUI():
 
@@ -91,6 +90,7 @@ class GUI(tk.Label, ToDoList):
         self.master.config(menu=self.menubar)
 
         self.master.mainloop()
+        
 
         
     def show_late_tasks(self):

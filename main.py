@@ -1,5 +1,5 @@
 from ToDoPy.gui import GUI
+from ToDoPy.variables import SAVEFILE
 
-SAVEFILE = "data.json"
 
 app = GUI(SAVEFILE)
